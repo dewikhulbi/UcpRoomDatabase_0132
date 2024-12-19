@@ -36,7 +36,85 @@ import com.example.ucp2.ui.viewmodelmatkul.MatkulUIState
 import com.example.ucp2.ui.viewmodelmatkul.MatkulViewModel
 import kotlinx.coroutines.launch
 
+object DestinasiInsertMatkul : AlamatNavigasiDosen{
+    override val route: String = "insert_matkul"
+} //object dikenal sebagai nama halamnan di insertmhsview
 
+@Composable
+fun InsertMatkulView(
+    onBack:() -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: MatkulViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val uiState=viewModel.uiState //ambil ui state dari viewmodel
+    val snackbarHostState = remember { SnackbarHostState() } //snackbar state
+    val coroutineScope = rememberCoroutineScope()
+
+    //observasi perubahan snackbarmassage
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message) //tampilansnackbar
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState)}
+    ){ padding ->
+        Column (
+            modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp)
+        ){
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah MataKuliah",
+                modifier = Modifier
+
+            )
+            //isi body
+            InsertBodyMatkul(
+                uiState = uiState,
+                onValueChange = { updateEvent ->
+                    viewModel.updateState(updateEvent) //update state di viewmodel
+                },
+                onClick = {
+                    viewModel.saveData() //simpan data
+                    onNavigate()
+                }
+            )
+        }
+    }
+}
+@Composable
+fun InsertBodyMatkul(
+    modifier: Modifier = Modifier,
+    onValueChange: (MatkulEvent) -> Unit,
+    uiState: MatkulUIState,
+    onClick: () -> Unit
+){
+    Column (
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        FormMatkul(
+            matkulEvent = uiState.matkulEvent,
+            onValueChange = onValueChange,
+            errorState = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick=onClick,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Simpan")
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
