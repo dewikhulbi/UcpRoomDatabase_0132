@@ -36,7 +36,7 @@ Tampilan saat akan mengupdate data matkul
 
 Tampilan saat data matkul berhasil di update
 
-![Data berhasil diupdate](https://github.com/user-attachments/assets/336f822a-e63e-4ce0-935c-6f0f80373652)
+![update matkul](https://github.com/user-attachments/assets/5acca653-6846-48ac-bf96-d8dd3ac4330e)
 
 Tampilan saat akan menghapus data matkul
 
