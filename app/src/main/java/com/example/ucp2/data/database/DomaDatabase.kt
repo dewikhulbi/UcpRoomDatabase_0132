@@ -18,5 +18,19 @@ abstract class DomaDatabase : RoomDatabase() {
     //abstract fun mataKuliahDao(): MatkulDao
     abstract fun matkulDao(): MatkulDao
 
-
+    companion object {
+        @Volatile // Memastikan bahwa nilai variabel instance selalu sama di semua thread
+        private var Instance: DomaDatabase? = null
+        fun getDatabase(context: Context): DomaDatabase {
+            return (Instance ?: synchronized(this) {
+                Room.databaseBuilder(
+                    context,
+                    DomaDatabase::class.java, // class database
+                    "DomaDatabase" // nama database
+                )
+                    .fallbackToDestructiveMigration() // Menangani perubahan skema jika diperlukan
+                    .build().also { Instance = it }
+            })
+        }
+    }
 }
