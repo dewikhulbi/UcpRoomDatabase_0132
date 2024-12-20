@@ -9,7 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -18,8 +25,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2.ui.costumwidget.TopAppBar
 import com.example.ucp2.ui.navigation.AlamatNavigasiDosen
+import com.example.ucp2.ui.viewmodeldosen.DosenUIState
+import com.example.ucp2.ui.viewmodeldosen.DosenViewModel
 import com.example.ucp2.ui.viewmodeldosen.PenyediaViewModel
 import com.example.ucp2.ui.viewmodelmatkul.FormErrorState
 import com.example.ucp2.ui.viewmodelmatkul.MatkulEvent
@@ -122,8 +135,11 @@ fun FormMatkul(
     matkulEvent: MatkulEvent = MatkulEvent(),
     onValueChange : (MatkulEvent) -> Unit = {},
     errorState: FormErrorState = FormErrorState(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    DosenViewModel: DosenViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
+    val DosenUIState by DosenViewModel.DosenUIState.collectAsState()
+    val listDosen = DosenUIState.listDosen.map{it.nama}
     val semester = listOf("Genap","Ganjil")
     val jenis = listOf("Wajib","Tidak")
 
@@ -216,20 +232,73 @@ fun FormMatkul(
             }
         }
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = matkulEvent.dosenPengampu,
-            onValueChange = {
-                onValueChange(matkulEvent.copy(dosenPengampu = it))
+        DropdownMenuField(
+            label = "Nama Dosen Pengampu",
+            options = listDosen,
+            selectedOption = matkulEvent.dosenPengampu,
+            onOptionSelected = {
+                selectedDosen -> onValueChange(matkulEvent.copy(dosenPengampu = selectedDosen))
             },
-            label = { Text("Dosen Pengampu")},
             isError = errorState.dosenPengampu != null,
-            placeholder = { Text("Masukan Dosen Pengampu")},
-        )
-        Text(
-            text = errorState.dosenPengampu ?: "",
-            color = Color.Red
+            errorMessage = errorState.dosenPengampu
         )
 
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownMenuField(
+    label: String,
+    options: List<String>,
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit,
+    isError: Boolean = false,
+    errorMessage: String? = null
+) {
+    var expanded by remember { mutableStateOf(false) } // Mengatur status drop-down
+    var currentSelection by remember { mutableStateOf(selectedOption) } // Menyimpan pilihan saat ini
+
+    Column {
+        OutlinedTextField(
+            value = currentSelection,
+            onValueChange = {}, // Tidak memungkinkan input manual
+            readOnly = true,
+            label = { Text(label) },
+            trailingIcon = {
+                androidx.compose.material3.IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                        imageVector = if (expanded) Icons.Default.ArrowDropDown else Icons.Default.ArrowDropDown,
+                        contentDescription = "Dropdown Icon"
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            isError = isError
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        currentSelection = option
+                        onOptionSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
+
+        if (isError && errorMessage != null) {
+            Text(
+                text = errorMessage,
+                color = Color.Red,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
