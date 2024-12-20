@@ -14,12 +14,12 @@ object DestinasiHomeMatkul : AlamatNavigasiDosen {
     override val route = "home_mahasiswa"
 }
 object DestinasiDetailDosen : AlamatNavigasiDosen {
-    override val route = "detail"
+    override val route = "detail_dosen"
     const val NIDN = "nidn"
     val routesWithArg = "$route/{$NIDN}"
 }
 object DestinasiDetailMatkul : AlamatNavigasiDosen {
-    override val route = "detail"
+    override val route = "detail_matkul"
     const val KODE = "kode"
     val routesWithArg = "$route/{$KODE}"
 }

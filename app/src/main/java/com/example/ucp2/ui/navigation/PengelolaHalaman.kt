@@ -6,25 +6,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.meet10.ui.view.mahasiswa.DetailMatkulView
-//import com.example.meet10.ui.view.mahasiswa.DetailMatkulView
-//import com.example.ucp2.ui.view.dosen.DestinasiInsert
 import com.example.ucp2.ui.view.dosen.DestinasiInsertDosen
 import com.example.ucp2.ui.view.dosen.DetailDosenView
 import com.example.ucp2.ui.view.dosen.HomeDosenView
 import com.example.ucp2.ui.view.matkul.HomeMatkulView
 import com.example.ucp2.ui.view.dosen.HomeMenuView
-//import com.example.ucp2.ui.view.dosen.HomeMatkulView
 import com.example.ucp2.ui.view.dosen.InsertDosenView
 import com.example.ucp2.ui.view.matkul.DestinasiInsertMatkul
 import com.example.ucp2.ui.view.matkul.InsertMatkulView
 import com.example.ucp2.ui.view.matkul.UpdateMatkulView
-
-//import com.example.ucp2.ui.view.dosen.InsertMatkulView
-//import com.example.ucp2.ui.view.dosen.UpdateMatkulView
 
 @Composable
 fun PengelolaHalaman(
