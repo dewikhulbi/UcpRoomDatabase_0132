@@ -18,6 +18,10 @@ Tampilan saat data dosen berhasil diinputkan
 
 ![Input Dosen Tersimpan](https://github.com/user-attachments/assets/30cc1ca3-4698-46ff-9812-b28f14b6f3c5)
 
+Tampilan detail dosen
+
+![tampilan DETAIL DOSEN](https://github.com/user-attachments/assets/12da3f11-3138-43b9-91a8-2d0bbb95f9a4)
+
 Tampilan ketika akan menginput data matkul
 
 ![Tampilan saat akan menginputkan data matkul](https://github.com/user-attachments/assets/a3736e06-bfb3-4e28-8e9b-0cbf666183af)
@@ -45,4 +49,8 @@ Tampilan saat akan menghapus data matkul
 Tampilan saat data berhasil di delete
 
 ![data berhasil di delete](https://github.com/user-attachments/assets/0285cad7-32b4-457b-b83e-f1561af5d070)
+
+Tampilan untuk dropdown dosen
+
+![dropdown untuk dosen](https://github.com/user-attachments/assets/6d177c42-d30b-4f7b-a170-a5f89fa632fb)
 
