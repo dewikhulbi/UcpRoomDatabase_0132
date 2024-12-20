@@ -50,3 +50,7 @@ Tampilan saat data berhasil di delete
 
 ![data berhasil di delete](https://github.com/user-attachments/assets/0285cad7-32b4-457b-b83e-f1561af5d070)
 
+Tampilan untuk dropdown dosen
+
+![dropdown untuk dosen](https://github.com/user-attachments/assets/6d177c42-d30b-4f7b-a170-a5f89fa632fb)
+
