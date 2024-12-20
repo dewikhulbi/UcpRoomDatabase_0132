@@ -7,6 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp2.data.entity.Dosen
 import com.example.ucp2.repository.RepositoryDosen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DosenViewModel (private val repositoryDosen: RepositoryDosen) : ViewModel(){
@@ -59,9 +67,42 @@ class DosenViewModel (private val repositoryDosen: RepositoryDosen) : ViewModel(
         uiState = uiState.copy(
             snackBarMessage = null )
     }
+
+    val DosenUIState:StateFlow<DosenUIState> = repositoryDosen.getAllDosen()
+        .filterNotNull().
+        map {
+            DosenUIState(
+                listDosen = it.toList(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(DosenUIState(isLoading = true))
+            delay(900)
+        }
+        .catch {
+            emit(
+                DosenUIState(
+                    isLoading = false,
+                    isError = true,
+                    errorState = it.message ?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = DosenUIState(
+                isLoading = true,
+            )
+        )
 }
 
 data class DosenUIState(
+    val listDosen:List<Dosen> = listOf(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorState: String="",
     val dosenEvent: DosenEvent = DosenEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
     val snackBarMessage:String? = null,
