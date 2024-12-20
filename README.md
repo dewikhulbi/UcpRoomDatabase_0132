@@ -18,6 +18,10 @@ Tampilan saat data dosen berhasil diinputkan
 
 ![Input Dosen Tersimpan](https://github.com/user-attachments/assets/30cc1ca3-4698-46ff-9812-b28f14b6f3c5)
 
+Tampilan detail dosen
+
+![tampilan DETAIL DOSEN](https://github.com/user-attachments/assets/12da3f11-3138-43b9-91a8-2d0bbb95f9a4)
+
 Tampilan ketika akan menginput data matkul
 
 ![Tampilan saat akan menginputkan data matkul](https://github.com/user-attachments/assets/a3736e06-bfb3-4e28-8e9b-0cbf666183af)
