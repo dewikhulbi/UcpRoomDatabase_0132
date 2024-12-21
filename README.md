@@ -1,3 +1,6 @@
+Link Video
+https://drive.google.com/drive/folders/1psVZThtYr0L_P3QPUcam5cWaXBq-sP-u?usp=sharing
+
 Tampilan awal aplikasi 
 
 ![Tampilan Awal Aplikasi](https://github.com/user-attachments/assets/760723a0-c2ef-48f3-9ea1-a316f8d6a4a6)
